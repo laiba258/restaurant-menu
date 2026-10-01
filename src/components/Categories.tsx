@@ -28,7 +28,14 @@ export default function Categories({ activeCategory, onSelect }: Props) {
     // Sticky bar just below the header
     <div className="sticky top-16 z-40 bg-[#0d0d0d]/95 backdrop-blur-md border-b border-white/8 shadow-md shadow-black/30">
       <div className="max-w-6xl mx-auto px-4">
-        <div className="flex gap-2 py-3 overflow-x-auto no-scrollbar">
+        {/* Heading */}
+        <div className="pt-3 pb-1">
+          <p className="text-[11px] font-bold tracking-widest uppercase text-gray-500">
+            Browse by Category
+          </p>
+        </div>
+        {/* Category pills */}
+        <div className="flex gap-2 pb-3 overflow-x-auto no-scrollbar">
           {categories.map(cat => (
             <button
               key={cat.id}
