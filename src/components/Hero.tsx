@@ -92,7 +92,7 @@ export default function Hero() {
   useEffect(() => {
     timerRef.current = setInterval(() => {
       goTo((slide + 1) % SLIDES.length);
-    }, 3500);
+    }, 5000);
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [slide]);
 
@@ -139,6 +139,7 @@ export default function Hero() {
                   objectFit: 'contain',
                   display: 'block',
                   filter: 'drop-shadow(0 4px 20px rgba(200,16,46,0.4))',
+                  marginTop: '16px',
                 }}
               />
             </div>
@@ -231,7 +232,7 @@ export default function Hero() {
                   transition: 'background 0.5s ease, box-shadow 0.5s ease, transform 0.2s',
                 }}
               >
-                View Our Menu
+               Go to Menu
               </a>
               <a
                 href="#deals"
@@ -285,14 +286,14 @@ export default function Hero() {
               }}
             />
 
-            {/* Outer dashed ring */}
+            {/* Outer dashed ring — wider than the image */}
             <div
               style={{
                 position: 'absolute',
-                width: 'min(490px, 92vw)',
-                height: 'min(490px, 92vw)',
+                width: 'min(520px, 100vw)',
+                height: 'min(520px, 100vw)',
                 borderRadius: '50%',
-                border: `1px dashed ${current.color}30`,
+                border: `1px dashed ${current.color}35`,
                 transition: 'border-color 0.6s ease',
                 animation: 'rotateSlow 18s linear infinite',
               }}
@@ -302,8 +303,8 @@ export default function Hero() {
             <div
               style={{
                 position: 'absolute',
-                width: 'min(452px, 86vw)',
-                height: 'min(452px, 86vw)',
+                width: 'min(480px, 92vw)',
+                height: 'min(480px, 92vw)',
                 borderRadius: '50%',
                 border: `1px solid rgba(255,255,255,0.06)`,
               }}
@@ -313,26 +314,29 @@ export default function Hero() {
             <div
               style={{
                 position: 'absolute',
-                width: 'min(430px, 82vw)',
-                height: 'min(430px, 82vw)',
+                width: 'min(456px, 88vw)',
+                height: 'min(456px, 88vw)',
                 borderRadius: '50%',
-                border: `1px solid #f5c84220`,
+                border: `1px solid #f5c84225`,
                 animation: 'rotateSlow 12s linear infinite reverse',
               }}
             />
 
-            {/* Small floating dots around the circle */}
+            {/* Small floating dots — orbit OUTSIDE the circle */}
             {[
-              { angle: 30,  r: '48%', size: 6,  color: '#c8102e', opacity: 0.7 },
-              { angle: 120, r: '47%', size: 4,  color: '#f5c842', opacity: 0.5 },
-              { angle: 200, r: '48%', size: 5,  color: '#c8102e', opacity: 0.6 },
-              { angle: 280, r: '47%', size: 4,  color: '#f5c842', opacity: 0.4 },
-              { angle: 340, r: '48%', size: 3,  color: '#ffffff', opacity: 0.3 },
+              { angle: 30,  size: 8,  color: '#c8102e', opacity: 0.85 },
+              { angle: 110, size: 5,  color: '#f5c842', opacity: 0.65 },
+              { angle: 190, size: 7,  color: '#c8102e', opacity: 0.75 },
+              { angle: 260, size: 5,  color: '#f5c842', opacity: 0.55 },
+              { angle: 320, size: 4,  color: '#ffffff', opacity: 0.45 },
             ].map((dot, i) => {
+              // Use a fixed pixel orbit radius so dots stay outside on all screen sizes
+              // We position relative to the center of the container using CSS transforms
               const rad = (dot.angle * Math.PI) / 180;
-              const radius = 47; // % of container
-              const x = 50 + radius * Math.cos(rad);
-              const y = 50 + radius * Math.sin(rad);
+              // orbit at ~58% of half the container width — safely outside the 82vw circle
+              const orbitPct = 58;
+              const x = 50 + orbitPct * Math.cos(rad);
+              const y = 50 + orbitPct * Math.sin(rad);
               return (
                 <div
                   key={i}
@@ -340,14 +344,16 @@ export default function Hero() {
                     position: 'absolute',
                     left: `${x}%`,
                     top: `${y}%`,
+                    transform: 'translate(-50%, -50%)',
                     width: dot.size,
                     height: dot.size,
                     borderRadius: '50%',
                     background: dot.color,
                     opacity: dot.opacity,
-                    boxShadow: `0 0 ${dot.size * 3}px ${dot.color}`,
-                    animation: `blink ${1.5 + i * 0.4}s ease-in-out infinite`,
-                    animationDelay: `${i * 0.3}s`,
+                    boxShadow: `0 0 ${dot.size * 4}px ${dot.color}`,
+                    animation: `blink ${1.8 + i * 0.5}s ease-in-out infinite`,
+                    animationDelay: `${i * 0.35}s`,
+                    zIndex: 20,
                   }}
                 />
               );
