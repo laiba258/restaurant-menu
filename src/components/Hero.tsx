@@ -10,7 +10,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { RESTAURANT } from '../data/menu';
-import logoImg from '../assets/logo.png';
+import pizzaLogoImg from '../assets/pizzalogo.png';  // hero pizza logo (above headline)
 
 // ── Each slide: headline + colored keyword + image + description
 const SLIDES = [
@@ -75,7 +75,7 @@ export default function Hero() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const current = SLIDES[slide];
-  const { displayed: typedWord } = useTypewriter(current.keyword, 60);
+  const { displayed: typedWord } = useTypewriter(current.keyword, 40);
 
   // Page load entrance
   useEffect(() => {
@@ -92,7 +92,7 @@ export default function Hero() {
   useEffect(() => {
     timerRef.current = setInterval(() => {
       goTo((slide + 1) % SLIDES.length);
-    }, 5000);
+    }, 3500);
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
   }, [slide]);
 
@@ -119,7 +119,7 @@ export default function Hero() {
           ══════════════════════════════ */}
           <div className="flex flex-col justify-center py-12 lg:py-0 order-2 lg:order-1">
 
-            {/* Logo */}
+            {/* Logo — pizza logo above the headline */}
             <div
               style={{
                 opacity:   entered ? 1 : 0,
@@ -131,13 +131,14 @@ export default function Hero() {
               }}
             >
               <img
-                src={logoImg}
+                src={pizzaLogoImg}
                 alt="Hunger Heaven"
                 style={{
-                  height: '88px',
+                  height: '100px',
                   width: 'auto',
                   objectFit: 'contain',
                   display: 'block',
+                  filter: 'drop-shadow(0 4px 20px rgba(200,16,46,0.4))',
                 }}
               />
             </div>
@@ -269,6 +270,89 @@ export default function Hero() {
           <div
             className="relative flex items-center justify-center order-1 lg:order-2 h-[300px] sm:h-[440px] lg:h-auto lg:min-h-[560px]"
           >
+            {/* ── Decorative background behind the circle ── */}
+
+            {/* Large soft glow that pulses with slide color */}
+            <div
+              style={{
+                position: 'absolute',
+                width: 'min(500px, 95vw)',
+                height: 'min(500px, 95vw)',
+                borderRadius: '50%',
+                background: `radial-gradient(circle, ${current.color}22 0%, transparent 70%)`,
+                transition: 'background 0.7s ease',
+                animation: 'slowPulse 4s ease-in-out infinite',
+              }}
+            />
+
+            {/* Outer dashed ring */}
+            <div
+              style={{
+                position: 'absolute',
+                width: 'min(490px, 92vw)',
+                height: 'min(490px, 92vw)',
+                borderRadius: '50%',
+                border: `1px dashed ${current.color}30`,
+                transition: 'border-color 0.6s ease',
+                animation: 'rotateSlow 18s linear infinite',
+              }}
+            />
+
+            {/* Middle solid thin ring */}
+            <div
+              style={{
+                position: 'absolute',
+                width: 'min(452px, 86vw)',
+                height: 'min(452px, 86vw)',
+                borderRadius: '50%',
+                border: `1px solid rgba(255,255,255,0.06)`,
+              }}
+            />
+
+            {/* Inner gold thin ring */}
+            <div
+              style={{
+                position: 'absolute',
+                width: 'min(430px, 82vw)',
+                height: 'min(430px, 82vw)',
+                borderRadius: '50%',
+                border: `1px solid #f5c84220`,
+                animation: 'rotateSlow 12s linear infinite reverse',
+              }}
+            />
+
+            {/* Small floating dots around the circle */}
+            {[
+              { angle: 30,  r: '48%', size: 6,  color: '#c8102e', opacity: 0.7 },
+              { angle: 120, r: '47%', size: 4,  color: '#f5c842', opacity: 0.5 },
+              { angle: 200, r: '48%', size: 5,  color: '#c8102e', opacity: 0.6 },
+              { angle: 280, r: '47%', size: 4,  color: '#f5c842', opacity: 0.4 },
+              { angle: 340, r: '48%', size: 3,  color: '#ffffff', opacity: 0.3 },
+            ].map((dot, i) => {
+              const rad = (dot.angle * Math.PI) / 180;
+              const radius = 47; // % of container
+              const x = 50 + radius * Math.cos(rad);
+              const y = 50 + radius * Math.sin(rad);
+              return (
+                <div
+                  key={i}
+                  style={{
+                    position: 'absolute',
+                    left: `${x}%`,
+                    top: `${y}%`,
+                    width: dot.size,
+                    height: dot.size,
+                    borderRadius: '50%',
+                    background: dot.color,
+                    opacity: dot.opacity,
+                    boxShadow: `0 0 ${dot.size * 3}px ${dot.color}`,
+                    animation: `blink ${1.5 + i * 0.4}s ease-in-out infinite`,
+                    animationDelay: `${i * 0.3}s`,
+                  }}
+                />
+              );
+            })}
+
             {/* Image — circular, fixed size, slides in from right */}
             <div
               key={imgKey}
@@ -279,7 +363,7 @@ export default function Hero() {
                 overflow: 'hidden',
                 flexShrink: 0,
                 boxShadow: `0 24px 70px rgba(0,0,0,0.6), 0 0 0 2px ${current.color}33`,
-                animation: 'imgEnter 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+                animation: 'imgEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards',
                 transition: 'box-shadow 0.5s ease',
               }}
             >
@@ -297,8 +381,10 @@ export default function Hero() {
 
             {/* Soft glow behind image matching slide color */}
             <div
-              className="absolute right-0 w-[380px] h-[380px] rounded-full blur-3xl pointer-events-none"
+              className="absolute rounded-full blur-3xl pointer-events-none"
               style={{
+                width: 'min(300px, 60vw)',
+                height: 'min(300px, 60vw)',
                 background: `${current.color}18`,
                 transition: 'background 0.7s ease',
               }}
@@ -318,8 +404,16 @@ export default function Hero() {
           50%       { opacity: 0; }
         }
         @keyframes imgEnter {
-          from { opacity: 0; transform: translateX(60px) scale(0.96); }
+          from { opacity: 0; transform: translateX(40px) scale(0.97); }
           to   { opacity: 1; transform: translateX(0)    scale(1);    }
+        }
+        @keyframes rotateSlow {
+          from { transform: rotate(0deg);   }
+          to   { transform: rotate(360deg); }
+        }
+        @keyframes slowPulse {
+          0%, 100% { transform: scale(1);    opacity: 1; }
+          50%       { transform: scale(1.06); opacity: 0.7; }
         }
       `}</style>
     </section>
