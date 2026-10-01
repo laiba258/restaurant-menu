@@ -319,6 +319,19 @@ export const categories: MenuCategory[] = [
       { id: 'cf37', name: 'Peach Lemon Tea', description: 'Peach and lemon blended tea', price: 450, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=400&q=80' },
     ],
   },
+
+  // ── DRINKS (Bottles) ──────────────────────────────────────────────────────
+  {
+    id: 'drinks',
+    label: 'Drinks',
+    emoji: '🥤',
+    items: [
+      // Cola
+      { id: 'dr1', name: 'Cola', description: 'Ice cold Cola', price: 80,  sizes: [{label:'Regular',price:80},{label:'1 Ltr',price:120},{label:'1.5 Ltr',price:160},{label:'2 Ltr',price:200}], image: 'https://images.unsplash.com/photo-1554866585-cd94860890b7?w=400&q=80', popular: true },
+      { id: 'dr2', name: '7UP',       description: 'Refreshing lemon-lime soda', price: 80, sizes: [{label:'Regular',price:80},{label:'1 Ltr',price:120},{label:'1.5 Ltr',price:160},{label:'2 Ltr',price:200}], image: 'https://images.unsplash.com/photo-1625772299848-391b6a87d7b3?w=400&q=80' },
+      { id: 'dr3', name: 'Water Bottle', description: 'Still mineral water', price: 50, sizes: [{label:'500ml',price:50},{label:'1 Ltr',price:80},{label:'1.5 Ltr',price:100}], image: 'https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80' },
+    ],
+  },
 ];
 
 // ─── DEALS ───────────────────────────────────────────────────────────────────

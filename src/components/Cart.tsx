@@ -137,6 +137,25 @@ export default function Cart({ items, onAdd, onRemove, onClear }: Props) {
                 ))}
               </div>
 
+              {/* ── Drink Suggestion ── */}
+              {/* Show only if no drink is already in the cart */}
+              {!items.some(i => i.id.startsWith('dr') || i.name.toLowerCase().includes('cola') || i.name.toLowerCase().includes('drink') || i.name.toLowerCase().includes('7up') || i.name.toLowerCase().includes('pepsi') || i.name.toLowerCase().includes('sprite')) && (
+                <div className="mb-4 rounded-xl border border-[#f5c842]/25 bg-[#f5c842]/5 px-3 py-2.5 flex items-center gap-3">
+                  <span className="text-xl flex-shrink-0">🥤</span>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-[#f5c842] text-xs font-bold">Add a drink?</p>
+                    <p className="text-gray-400 text-[11px]">Cola · 7UP · Pepsi · Sprite — from Rs. 80</p>
+                  </div>
+                  <a
+                    href="#drinks"
+                    onClick={() => setOpen(false)}
+                    className="flex-shrink-0 text-[11px] font-bold text-[#f5c842] bg-[#f5c842]/15 hover:bg-[#f5c842]/25 px-3 py-1.5 rounded-full transition-colors"
+                  >
+                    Add
+                  </a>
+                </div>
+              )}
+
               {/* ── Order Type Toggle ── */}
               <div className="mb-4">
                 <p className="text-gray-400 text-xs mb-2 font-medium uppercase tracking-wide">Order Type</p>
